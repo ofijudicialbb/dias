@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Sistema Vacaciones</title>
+
+<style>
+
+body{
+font-family: Arial;
+text-align:center;
+margin-top:40px;
+}
+
+input{
+padding:8px;
+margin:5px;
+width:220px;
+}
+
+button{
+padding:10px 20px;
+cursor:pointer;
+}
+
+#grafico{
+width:95%;
+height:85vh;
+margin-top:20px;
+border:none;
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Oficina Judicial Sede Bahia Blanca</h2>
+
+CUIT<br>
+<input id="cuit"><br><br>
+
+Clave<br>
+<input id="password" type="password"><br><br>
+
+<button onclick="login()">Consultar</button>
+
+<h3 id="resultado"></h3>
+
+<iframe id="grafico"></iframe>
+
+
+<script>
+
+const urlCSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTaAMhgCYTWp4xVZ_SpsOMFeP7EqTTa0XXeQ9_UsTYcniOas4bD1Quv4Qu8QiiGfNwgpWW38fhUZUiy/pub?output=csv";
+
+
+async function login(){
+
+let cuit =
+document.getElementById("cuit").value.trim();
+
+let password =
+document.getElementById("password").value.trim();
+
+let response =
+await fetch(urlCSV);
+
+let data =
+await response.text();
+
+let filas =
+data.split(/\r?\n/);
+
+
+for(let i=1;i<filas.length;i++){
+
+if(!filas[i]) continue;
+
+let columnas;
+
+if(filas[i].includes(";")){
+columnas = filas[i].split(";");
+}else{
+columnas = filas[i].split(",");
+}
+
+let cuitSheet =
+columnas[0].trim();
+
+let passSheet =
+columnas[1].trim();
+
+let diasSheet =
+columnas[2].trim();
+
+let yearSheet =
+columnas[3].trim();
+
+let graficoSheet =
+columnas[4].trim();
+
+
+if(
+cuitSheet === cuit &&
+passSheet === password
+){
+
+
+
+let iframe =
+document.getElementById("grafico");
+
+iframe.src =
+graficoSheet;
+
+iframe.style.display =
+"block";
+
+
+return;
+
+}
+
+}
+
+
+document.getElementById("resultado").innerText =
+"Usuario o clave incorrectos";
+
+
+document.getElementById("grafico").style.display =
+"none";
+
+}
+
+
+</script>
+
+</body>
+
+</html>
