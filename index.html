@@ -83,7 +83,8 @@ DNI<br>
 <input id="cuit"><br><br>
 
 Clave<br>
-<input id="password" type="password"><br><br>
+<input id="password" type="password"
+onkeypress="if(event.key==='Enter') login()"><br><br>
 
 <button onclick="login()">Consultar</button>
 
