@@ -8,20 +8,45 @@
 <style>
 
 body{
-font-family: Arial;
+font-family: Arial, sans-serif;
 text-align:center;
-margin-top:40px;
+margin-top:30px;
+background-color:#1f2937;
+color:white;
+}
+
+.logo{
+width:180px;
+height:auto;
+display:block;
+margin:0 auto 20px auto;
+}
+
+h2{
+margin-bottom:25px;
 }
 
 input{
-padding:8px;
+padding:10px;
 margin:5px;
 width:220px;
+border:none;
+border-radius:5px;
+font-size:14px;
 }
 
 button{
-padding:10px 20px;
+padding:10px 25px;
 cursor:pointer;
+background-color:#2563eb;
+color:white;
+border:none;
+border-radius:5px;
+font-size:14px;
+}
+
+button:hover{
+background-color:#1d4ed8;
 }
 
 #grafico{
@@ -30,6 +55,15 @@ height:85vh;
 margin-top:20px;
 border:none;
 display:none;
+background:white;
+border-radius:8px;
+}
+
+#resultado{
+margin-top:20px;
+font-size:18px;
+font-weight:bold;
+color:white;
 }
 
 </style>
@@ -37,13 +71,13 @@ display:none;
 </head>
 
 <body>
-  
-  <img
-src="https://pjn.gov.ar/assets/images/logo_blanco_2.png"
-alt="Escudo Nacional Argentino"
-class="escudo">
 
-<h2>Oficina Judicial Sede Bahia Blanca</h2>
+<img
+src="https://pjn.gov.ar/assets/images/logo_blanco_2.png"
+alt="Poder Judicial de la Nación"
+class="logo">
+
+<h2>Oficina Judicial Sede Bahía Blanca</h2>
 
 DNI<br>
 <input id="cuit"><br><br>
@@ -57,12 +91,10 @@ Clave<br>
 
 <iframe id="grafico"></iframe>
 
-
 <script>
 
 const urlCSV =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTaAMhgCYTWp4xVZ_SpsOMFeP7EqTTa0XXeQ9_UsTYcniOas4bD1Quv4Qu8QiiGfNwgpWW38fhUZUiy/pub?output=csv";
-
 
 async function login(){
 
@@ -80,7 +112,6 @@ await response.text();
 
 let filas =
 data.split(/\r?\n/);
-
 
 for(let i=1;i<filas.length;i++){
 
@@ -109,13 +140,10 @@ columnas[3].trim();
 let graficoSheet =
 columnas[4].trim();
 
-
 if(
 cuitSheet === cuit &&
 passSheet === password
 ){
-
-
 
 let iframe =
 document.getElementById("grafico");
@@ -126,6 +154,8 @@ graficoSheet;
 iframe.style.display =
 "block";
 
+document.getElementById("resultado").innerText =
+"Consulta realizada correctamente";
 
 return;
 
@@ -133,16 +163,13 @@ return;
 
 }
 
-
 document.getElementById("resultado").innerText =
 "Usuario o clave incorrectos";
-
 
 document.getElementById("grafico").style.display =
 "none";
 
 }
-
 
 </script>
 
